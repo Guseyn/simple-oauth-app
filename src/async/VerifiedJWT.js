@@ -5,13 +5,13 @@ const { AsyncObject } = require('@cuties/cutie')
 const JWT = require('./../auth/JWT')
 
 class VerifiedJWT extends AsyncObject {
-  constructor (token) {
-    super(token)
+  constructor (token, secret) {
+    super(token, secret)
   }
 
   syncCall () {
-    return (token) => {
-      return new JWT().verify(token)
+    return (token, secret) => {
+      return new JWT().verify(token, secret)
     }
   }
 }

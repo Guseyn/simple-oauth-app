@@ -23,6 +23,7 @@
   "dependencies": {
     "@cuties/cutie": "^1.7.3",
     "@cuties/if-else": "^1.1.0",
+    "@cuties/object": "^1.1.4",
     "@cuties/rest": "^1.2.6",
     "mongodb": "^3.2.2"
   }

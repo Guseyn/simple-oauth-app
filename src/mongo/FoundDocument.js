@@ -8,7 +8,7 @@ class FoundDocument extends AsyncObject {
   }
 
   asyncCall () {
-    return (ollection, query, options, callback) => {
+    return (collection, query, options, callback) => {
       collection.findOne(query, options, callback)
     }
   }
