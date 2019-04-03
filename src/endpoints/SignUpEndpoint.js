@@ -60,19 +60,17 @@ class SignUpEndpoint extends Endpoint {
             as('usersCollection'),
             as('newUser')
           ).after(
-            new StringifiedJSON(
-              new GeneratedJWTByUser(
-                as('newUser'),
-                new ExpirationTime(15),
-                new Secret()
-              )
-            ).as('jwt').after(
-              new EndedResponse(
-                new ResponseWithStatusCode(
-                  new ResponseWithHeader(
-                    response, 'Content-Type', 'application/json'
-                  ), 200
-                ), as('jwt')
+            new EndedResponse(
+              new ResponseWithStatusCode(
+                new ResponseWithHeader(
+                  response, 'Content-Type', 'application/json'
+                ), 200
+              ), new StringifiedJSON(
+                new GeneratedJWTByUser(
+                  as('newUser'),
+                  new ExpirationTime(15),
+                  new Secret()
+                )
               )
             )
           )

@@ -9,7 +9,7 @@ class InsertedDocument extends AsyncObject {
 
   asyncCall () {
     return (collection, doc, callback) => {
-      collection.insert(doc, callback)
+      collection.insertOne(doc, callback)
     }
   }
 }

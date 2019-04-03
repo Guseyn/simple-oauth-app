@@ -1,9 +1,9 @@
-function postData(url = '', data, headers, okCallback, errCallback) {
+function fetchJSON(url = '', method, data, headers, okCallback, errCallback) {
   headers['Content-Type'] = 'application/json'
   return fetch(url, {
-    method: 'POST',
+    method: method,
     headers: headers,
-    body: JSON.stringify(data),
+    body: data === null ? null : JSON.stringify(data),
   })
   .then(response => {
     if (response.status !== 200) {

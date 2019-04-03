@@ -30,8 +30,8 @@ new ConnectedMongoClient('mongodb://localhost:27017').as('mongoClient').after(
       new CreatedSignUpEndpoint(new RegExp(/^\/signup/), 'POST', as('mongoClient')),
       new CreatedSignInEndpoint(new RegExp(/^\/signin/), 'POST', as('mongoClient')),
       new CreatedUserProfileEndpoint(new RegExp(/^\/profile/), 'GET', as('mongoClient')),
-      new CreatedUpdateUserProfileEndpoint(new RegExp(/^\/update/), 'PUT', as('mongoClient')),
-      new CreatedDeleteUserProfileEndpoint(new RegExp(/^\/delete/), 'DELETE', as('mongoClient')),
+      new CreatedUpdateUserProfileEndpoint(new RegExp(/^\/profile/), 'PUT', as('mongoClient')),
+      new CreatedDeleteUserProfileEndpoint(new RegExp(/^\/profile/), 'DELETE', as('mongoClient')),
       notFoundEndpoint,
       internalServerErrorEndpoint
     )
