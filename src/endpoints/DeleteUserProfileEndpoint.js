@@ -15,12 +15,14 @@ const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryById = require('./../async/UserQueryById')
-const FoundDocument = require('./../mongo/FoundDocument')
+const DeletedDocument = require('./../mongo/DeletedDocument')
 const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
-const VerifiedJWT = require('./../async/VerifiedJWT')
 const UserIdByJWT = require('./../async/UserIdByJWT')
+const VerifiedJWT = require('./../async/VerifiedJWT')
+const DoesDocumentExist = require('./../mongo/DoesDocumentExist')
+const UpdatedUserData = require('./../async/UpdatedUserData')
 
-class UserProfileEndpoint extends Endpoint {
+class DeleteUserProfileEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
     super(regexpUrl, type)
     this.mongoClient = mongoClient
@@ -37,34 +39,40 @@ class UserProfileEndpoint extends Endpoint {
         ).as('jwt'),
         new Secret()
       ),
-      new EndedResponse(
-        new ResponseWithStatusCode(
-          new ResponseWithHeader(
-            response, 'Content-Type', 'application/json'
-          ), 200
-        ),
-        new StringifiedJSON(
-          new FoundDocument(
-            new Collection(
-              new Db(this.mongoClient, 'db'),
-              'users'
-            ),
-            new UserQueryById(
-              new CreatedUserWithOnlyId(
-                new UserIdByJWT(
-                  as('jwt')
-                )
-              )
-            ),
-            {
-              projection: { 
-                _id: 1,
-                name: 1,
-                email: 1,
-                description: 1,
-                signupDate: 1
-              }
-            }
+      new CreatedUserWithOnlyId(
+        new UserIdByJWT(
+          as('jwt')
+        )
+      ).as('user').after(
+        new EndedResponse(
+          new ResponseWithStatusCode(
+            new ResponseWithHeader(
+              response, 'Content-Type', 'application/json'
+            ), 200
+          ),
+          new StringifiedJSON(
+            new Value(
+              new DeletedDocument(
+                new Collection(
+                  new Db(this.mongoClient, 'db'),
+                  'users'
+                ),
+                new UserQueryById(
+                  as('user')
+                ),
+                {
+                  projection: { 
+                    _id: 1,
+                    name: 1,
+                    email: 1,
+                    description: 1,
+                    signupDate: 1
+                  },
+                  returnOriginal: false
+                }
+              ),
+              'value'
+            )
           )
         )
       ),
@@ -84,4 +92,4 @@ class UserProfileEndpoint extends Endpoint {
   }
 }
 
-module.exports = UserProfileEndpoint
+module.exports = DeleteUserProfileEndpoint

@@ -8,6 +8,9 @@ const CustomInternalServerErrorEndpoint = require('./endpoints/CustomInternalSer
 const CustomIndexEndpoint = require('./endpoints/CustomIndexEndpoint')
 const CreatedSignInEndpoint = require('./endpoints/CreatedSignInEndpoint')
 const CreatedSignUpEndpoint = require('./endpoints/CreatedSignUpEndpoint')
+const CreatedUserProfileEndpoint = require('./endpoints/CreatedUserProfileEndpoint')
+const CreatedUpdateUserProfileEndpoint = require('./endpoints/CreatedUpdateUserProfileEndpoint')
+const CreatedDeleteUserProfileEndpoint = require('./endpoints/CreatedDeleteUserProfileEndpoint')
 const notFoundEndpoint = new CustomNotFoundEndpoint(new RegExp(/\/not-found/))
 const internalServerErrorEndpoint = new CustomInternalServerErrorEndpoint(new RegExp(/^\/internal-server-error/))
 const path = require('path')
@@ -26,6 +29,9 @@ new ConnectedMongoClient('mongodb://localhost:27017').as('mongoClient').after(
       new ServingFilesEndpoint(new RegExp(/^\/(html|css|js)/), mapper, notFoundEndpoint),
       new CreatedSignUpEndpoint(new RegExp(/^\/signup/), 'POST', as('mongoClient')),
       new CreatedSignInEndpoint(new RegExp(/^\/signin/), 'POST', as('mongoClient')),
+      new CreatedUserProfileEndpoint(new RegExp(/^\/profile/), 'GET', as('mongoClient')),
+      new CreatedUpdateUserProfileEndpoint(new RegExp(/^\/update/), 'PUT', as('mongoClient')),
+      new CreatedDeleteUserProfileEndpoint(new RegExp(/^\/delete/), 'DELETE', as('mongoClient')),
       notFoundEndpoint,
       internalServerErrorEndpoint
     )

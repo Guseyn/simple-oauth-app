@@ -23,6 +23,12 @@ class JWT {
     return header.split('Bearer ')[1]
   }
 
+  userId (value) {
+    let parts = value.split('.')
+    let payload = this.base64UrlDecode(parts[1])
+    return payload.sub
+  }
+
   /* Super simple logic */
   verify (value, secret) {
     let parts = value.split('.')

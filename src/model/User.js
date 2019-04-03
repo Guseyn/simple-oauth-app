@@ -36,14 +36,10 @@ class User {
     }
   }
 
-  updatedData (name, email, description) {
+  updatedData () {
     return {
-      id: this._id,
-      name: name,
-      email: email,
-      password: this.password,
-      description: description,
-      signupDate: this.signupDate
+      '$set': { name: this.name },
+      '$set': { description: this.description }
     }
   }
 }

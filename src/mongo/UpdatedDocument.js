@@ -8,8 +8,8 @@ class UpdatedDocument extends AsyncObject {
   }
 
   asyncCall () {
-    return (collection, filter, update, options) => {
-      collection.findOneAndUpdate(filter, update, options)
+    return (collection, filter, update, options, callback) => {
+      collection.findOneAndUpdate(filter, update, options, callback)
     }
   }
 }
