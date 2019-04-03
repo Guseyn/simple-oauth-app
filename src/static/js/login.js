@@ -16,4 +16,26 @@ function initLogin () {
     goButton.value = 'Sign up'
     mode = 'signUp'
   }
+  goButton.onclick = () => {
+    if (mode === 'signIn') {
+      postData('/signin', {
+        name: email.value,
+        password: password.value
+      }).then(data => {
+        let jwt = data.jwt
+        localStorage.setItem('jwt', jwt)
+        location.replace('/html/profile.html')
+      })
+    } else if (mode === 'signUp') {
+      postData('/signup', {
+        name: name.value,
+        email: email.value,
+        password: password.value
+      }).then(data => {
+        let jwt = data.jwt
+        localStorage.setItem('jwt', jwt)
+        location.replace('/html/profile.html')
+      })
+    }
+  }
 }
