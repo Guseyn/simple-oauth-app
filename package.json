@@ -19,5 +19,9 @@
   "bugs": {
     "url": "https://github.com/Guseyn/simple-oauth-app/issues"
   },
-  "homepage": "https://github.com/Guseyn/simple-oauth-app#readme"
+  "homepage": "https://github.com/Guseyn/simple-oauth-app#readme",
+  "dependencies": {
+    "@cuties/cutie": "^1.7.3",
+    "@cuties/rest": "^1.2.6"
+  }
 }
