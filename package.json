@@ -1,0 +1,23 @@
+{
+  "name": "simple-oauth-app",
+  "version": "1.0.0",
+  "description": "Simple oauth app in Node.js (pure object-oriented approach, no frameworks).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Guseyn/simple-oauth-app.git"
+  },
+  "keywords": [
+    "async",
+    "cutie"
+  ],
+  "author": "guseyn",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Guseyn/simple-oauth-app/issues"
+  },
+  "homepage": "https://github.com/Guseyn/simple-oauth-app#readme"
+}
