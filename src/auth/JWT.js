@@ -19,6 +19,10 @@ class JWT {
     return `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}.${this.escape(signature)}`
   }
 
+  valueByAuthHeader (header) {
+    return header.split('Bearer ')[1]
+  }
+
   /* Super simple logic */
   verify (value, secret) {
     let parts = value.split('.')

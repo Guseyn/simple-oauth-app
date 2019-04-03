@@ -70,6 +70,13 @@ body {
   cursor: pointer;
 }
 
+.error {
+  background: #ff6666;
+  color: #ffffff;
+  font-size: 0.9em;
+  text-align: center;
+}
+
 input {
   width: 100%;
   padding: 10px;
