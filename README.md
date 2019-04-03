@@ -1,2 +1,2 @@
 # simple-oauth-app
-Simple oauth app in Node.js (pure approach, no frameworks).
+Simple oauth app in Node.js (pure object-oriented approach, no frameworks).
