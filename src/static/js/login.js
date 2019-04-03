@@ -4,6 +4,7 @@ function initLogin () {
   let name = document.getElementById('name')
   let email = document.getElementById('email')
   let password = document.getElementById('password')
+  let errorField = document.getElementById('error')
   let goButton = document.getElementById('go-button')
   let mode = 'signIn'
   signInLink.onclick = () => {
@@ -18,24 +19,41 @@ function initLogin () {
   }
   goButton.onclick = () => {
     if (mode === 'signIn') {
-      postData('/signin', {
-        name: email.value,
-        password: password.value
-      }).then(data => {
-        let jwt = data.jwt
-        localStorage.setItem('jwt', jwt)
-        location.replace('/html/profile.html')
-      })
+      postData(
+        '/signin', 
+        {
+          name: null,
+          email: email.value,
+          password: password.value
+        },
+        {},
+        (data) => {
+          let jwt = data.jwt
+          localStorage.setItem('jwt', jwt)
+          location.replace('/html/profile.html')
+        },
+        (errMessage) => {
+          errorField.innerHTML = errMessage
+        }
+      )
     } else if (mode === 'signUp') {
-      postData('/signup', {
-        name: name.value,
-        email: email.value,
-        password: password.value
-      }).then(data => {
-        let jwt = data.jwt
-        localStorage.setItem('jwt', jwt)
-        location.replace('/html/profile.html')
-      })
+      postData(
+        '/signup', 
+        {
+          name: name.value,
+          email: email.value,
+          password: password.value
+        },
+        {},
+        (data) => {
+          let jwt = data.jwt
+          localStorage.setItem('jwt', jwt)
+          location.replace('/html/profile.html')
+        },
+        (errMessage) => {
+          errorField.innerHTML = errMessage
+        }
+      )
     }
   }
 }

@@ -2,24 +2,24 @@
 
 class User {
   constructor (id, name, email, password, description = '', signupDate = new Date()) {
-    this.id = id
+    this._id = id
     this.name = name
     this.email = email
-    this.password
+    this.password = password
     this.description = description
     this.signupDate = signupDate
   }
 
   payload (exp) {
     return {
-      sub: this.id,
+      sub: this._id,
       exp: exp
     }
   }
 
   queryById () {
     return {
-      id: this.id
+      id: this._id
     }
   }
 
@@ -29,9 +29,16 @@ class User {
     }
   }
 
+  queryByEmailAndPassword () {
+    return {
+      email: this.email,
+      password: this.password
+    }
+  }
+
   updatedData (name, email, description) {
     return {
-      id: this.id,
+      id: this._id,
       name: name,
       email: email,
       password: this.password,

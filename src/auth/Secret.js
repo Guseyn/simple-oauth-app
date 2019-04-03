@@ -1,7 +1,5 @@
 'use strict'
 
-const base64url = require('base64url')
-
 class Secret {
   constructor () {}
 

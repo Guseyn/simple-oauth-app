@@ -5,13 +5,13 @@ const { AsyncObject } = require('@cuties/cutie')
 const SignUpEndpoint = require('./SignUpEndpoint')
 
 class CreatedSignUpEndpoint extends AsyncObject {
-  constructor (regexp, type) {
-    super(regexp, type)
+  constructor (regexp, type, mongoClient) {
+    super(regexp, type, mongoClient)
   }
 
   syncCall () {
-    return (regexp, type) => {
-      return new SignUpEndpoint(regexp, type)
+    return (regexp, type, mongoClient) => {
+      return new SignUpEndpoint(regexp, type, mongoClient)
     }
   }
 }
