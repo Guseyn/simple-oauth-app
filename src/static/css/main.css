@@ -1,0 +1,93 @@
+
+body {
+  background: #ffffff;
+  color: #111111;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  line-height: 1.4em;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #e5e5e5; 
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
+}
+
+.base {
+  width: 100%;
+  height: auto;
+  clear: both;
+  margin: 0 auto;
+  padding-bottom: 4em;
+  overflow: hidden;
+}
+
+.center {
+  width: 300px;
+  height: 300px;
+  position: absolute;
+  margin: auto;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.login-form {
+  width: 250px;
+  height: auto;
+  margin: auto;
+  font-family: 'Source Sans Pro', sans-serif;
+  padding: 5px;
+  background: #f8f8f8;
+  border-radius: 3px;
+  border: 1px solid #dedede;
+  color: #111111;
+}
+
+.mode {
+  text-align: center;
+}
+
+.as-link {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  margin-top: 3px;
+  font-size: 1em;
+  outline: none;
+  border-radius: 3px;
+  border: 1px solid #dedede;
+}
+
+input[type="button"] {
+  cursor: pointer;
+  background: deepskyblue;
+  color: white;
+}
+
+@media only screen and (min-width: 700px) {
+  .base {
+    width: 700px;
+  }
+}

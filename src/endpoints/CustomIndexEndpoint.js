@@ -26,10 +26,10 @@ class CustomIndexEndpoint extends IndexEndpoint {
       ),
       new ResponseWithStatusCode(
         new ResponseWithHeaders(
-          new ResponseWithHeader(
-            response, 'Content-Type', 'text/html'
-          ),
-          { 'Cache-Control': 'no-cache' }
+          response, { 
+            'Cache-Control': 'no-cache',
+            'Content-Type': 'text/html'
+          }
         ), 200
       )
     )
