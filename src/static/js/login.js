@@ -19,8 +19,9 @@ function initLogin () {
   }
   goButton.onclick = () => {
     if (mode === 'signIn') {
-      postData(
-        '/signin', 
+      fetchJSON(
+        '/signin',
+        'POST',
         {
           name: null,
           email: email.value,
@@ -37,8 +38,9 @@ function initLogin () {
         }
       )
     } else if (mode === 'signUp') {
-      postData(
-        '/signup', 
+      fetchJSON(
+        '/signup',
+        'POST',
         {
           name: name.value,
           email: email.value,

@@ -38,8 +38,10 @@ class User {
 
   updatedData () {
     return {
-      '$set': { name: this.name },
-      '$set': { description: this.description }
+      '$set': {
+        name: this.name,
+        description: this.description
+      }
     }
   }
 }
