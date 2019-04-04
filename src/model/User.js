@@ -1,5 +1,7 @@
 'use strict'
 
+const ObjectID = require('mongodb').ObjectID
+
 class User {
   constructor (id, name, email, password, description = '', signupDate = new Date()) {
     this._id = id
@@ -19,7 +21,7 @@ class User {
 
   queryById () {
     return {
-      id: this._id
+      _id: new ObjectID(this._id)
     }
   }
 
