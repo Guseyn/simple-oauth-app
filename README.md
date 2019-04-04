@@ -27,7 +27,9 @@ npm install
 
 ## Run app
 
-`npm run start`
+```bash
+npm run start
+```
 
 ## Model
 
