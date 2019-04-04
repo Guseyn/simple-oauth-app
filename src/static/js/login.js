@@ -35,6 +35,9 @@ function initLogin () {
         },
         (errMessage) => {
           errorField.innerHTML = errMessage
+          setTimeout(function() {
+            errorField.innerHTML = ''
+          }, 2000)
         }
       )
     } else if (mode === 'signUp') {
@@ -54,6 +57,9 @@ function initLogin () {
         },
         (errMessage) => {
           errorField.innerHTML = errMessage
+          setTimeout(function() {
+            errorField.innerHTML = ''
+          }, 2000)
         }
       )
     }

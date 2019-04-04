@@ -1,11 +1,11 @@
 function initProfile () {
   let name = document.getElementById('name')
   let email = document.getElementById('email')
-  let password = document.getElementById('password')
   let description = document.getElementById('description')
   let editButton = document.getElementById('edit-button')
   let logoutLink = document.getElementById('logout-link')
   let deleteAccountLink = document.getElementById('delete-account-link')
+  let successField = document.getElementById('success')
   fetchJSON(
     '/profile',
     'GET',
@@ -16,7 +16,6 @@ function initProfile () {
     (data) => {
       name.value = data.name
       email.value = data.email
-      password.value = data.password
       description.value = data.description
     },
     (errMessage) => {
@@ -41,7 +40,10 @@ function initProfile () {
         'Authorization': 'Bearer ' + localStorage.getItem('jwt')
       },
       (data) => {
-        location.reload()
+        successField.innerHTML = 'Successfully updated'
+        setTimeout(function() {
+          successField.innerHTML = ''
+        }, 2000)
       },
       (errMessage) => {
         localStorage.removeItem('jwt')

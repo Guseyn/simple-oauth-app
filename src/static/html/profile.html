@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="/../css/main.css" type="text/css">
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script src="/../js/fetchJSON.js" type="text/javascript"></script>
-    <script src="/../js/google-login.js" type="text/javascript"></script>
+    <script src="/../js/googleLogin.js" type="text/javascript"></script>
     <script src="/../js/profile.js" type="text/javascript"></script>
   </head>
 
@@ -21,10 +21,9 @@
         <span class="title">Your profile</span>
         <input id="name" type="text" name="name" placeholder="Your name">
         <input id="email" type="text" name="email" placeholder="Your email" disabled="true">
-        <input id="password" type="password" name="password" placeholder="Your password" disabled="true">
         <textarea id="description" placeholder="Describe yourself"></textarea>
+        <div id="success" class="success"></div>
         <input id="edit-button" type="button" value="Edit"></input>
-        <div id="error" class="error"></div>
         <div class="actions">
           <span id="logout-link" class="as-link">Log out</span>
           /

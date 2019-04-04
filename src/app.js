@@ -9,6 +9,7 @@ const CustomIndexEndpoint = require('./endpoints/CustomIndexEndpoint')
 const CreatedSignInEndpoint = require('./endpoints/CreatedSignInEndpoint')
 const CreatedSignUpEndpoint = require('./endpoints/CreatedSignUpEndpoint')
 const CreatedGoogleAuthEndpoint = require('./endpoints/CreatedGoogleAuthEndpoint')
+const CreatedGitHubAuthEndpoint = require('./endpoints/CreatedGitHubAuthEndpoint')
 const CreatedUserProfileEndpoint = require('./endpoints/CreatedUserProfileEndpoint')
 const CreatedUpdateUserProfileEndpoint = require('./endpoints/CreatedUpdateUserProfileEndpoint')
 const CreatedDeleteUserProfileEndpoint = require('./endpoints/CreatedDeleteUserProfileEndpoint')
@@ -17,7 +18,7 @@ const internalServerErrorEndpoint = new CustomInternalServerErrorEndpoint(new Re
 const path = require('path')
 
 const mapper = (url) => {
-  return path.join('src', 'static', ...url.split('/').filter(path => path !== ''))
+  return path.join('src', 'static', ...url.split('?')[0].split('/').filter(path => path !== ''))
 }
 
 new ConnectedMongoClient('mongodb://localhost:27017').as('mongoClient').after(
@@ -31,6 +32,7 @@ new ConnectedMongoClient('mongodb://localhost:27017').as('mongoClient').after(
       new CreatedSignUpEndpoint(new RegExp(/^\/signup/), 'POST', as('mongoClient')),
       new CreatedSignInEndpoint(new RegExp(/^\/signin/), 'POST', as('mongoClient')),
       new CreatedGoogleAuthEndpoint(new RegExp(/^\/google/), 'POST', as('mongoClient')),
+      new CreatedGitHubAuthEndpoint(new RegExp(/^\/github/), 'POST', as('mongoClient')),
       new CreatedUserProfileEndpoint(new RegExp(/^\/profile/), 'GET', as('mongoClient')),
       new CreatedUpdateUserProfileEndpoint(new RegExp(/^\/profile/), 'PUT', as('mongoClient')),
       new CreatedDeleteUserProfileEndpoint(new RegExp(/^\/profile/), 'DELETE', as('mongoClient')),
