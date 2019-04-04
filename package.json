@@ -4,7 +4,7 @@
   "description": "Simple oauth app in Node.js (pure object-oriented approach, no frameworks).",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app"
   },
   "repository": {
     "type": "git",

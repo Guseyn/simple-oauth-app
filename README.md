@@ -11,6 +11,19 @@ Simple oauth app in Node.js. It's completely based on [Async Tree Pattern](https
 2. You can see how authentication can be implemented with only simple external https requests.
 3. You can see how **JWT** works (this app don't use third party libraries for using **JWT**).
 
+## Installation
+
+First of all you need to install MongoDB on your machine.
+
+Then type following commands:
+
+`git clone git@github.com:Guseyn/simple-oauth-app.git`
+`npm install`
+
+## Run app
+
+`npm run start`
+
 ## Model
 
 ```js
