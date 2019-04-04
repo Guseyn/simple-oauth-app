@@ -17,8 +17,13 @@ First of all you need to install MongoDB on your machine.
 
 Then type following commands:
 
-```git clone git@github.com:Guseyn/simple-oauth-app.git```
-```npm install```
+```bash
+git clone git@github.com:Guseyn/simple-oauth-app.git
+```
+
+```bash
+npm install
+```
 
 ## Run app
 
