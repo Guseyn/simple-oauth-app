@@ -18,7 +18,6 @@ function initLogin () {
     mode = 'signUp'
   }
   goButton.onclick = () => {
-    console.log('sef')
     if (mode === 'signIn') {
       fetchJSON(
         '/signin',

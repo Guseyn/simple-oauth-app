@@ -22,7 +22,10 @@
   "homepage": "https://github.com/Guseyn/simple-oauth-app#readme",
   "dependencies": {
     "@cuties/cutie": "^1.7.3",
+    "@cuties/http": "^1.3.2",
+    "@cuties/https": "^1.1.2",
     "@cuties/if-else": "^1.1.0",
+    "@cuties/is": "^1.1.0",
     "@cuties/object": "^1.1.4",
     "@cuties/rest": "^1.2.6",
     "mongodb": "^3.2.2"

@@ -110,6 +110,39 @@ input[type="button"] {
   color: white;
 }
 
+#customBtn {
+  margin: 10px auto;
+  background: white;
+  color: #444;
+  width: 190px;
+  border-radius: 5px;
+  border: thin solid #888;
+  box-shadow: 1px 1px 1px grey;
+  white-space: nowrap;
+}
+#customBtn:hover {
+  cursor: pointer;
+}
+span.label {
+  font-family: serif;
+  font-weight: normal;
+}
+span.icon {
+  background: url('/images/g-logo.png') transparent 5px 50% no-repeat;
+  display: inline-block;
+  vertical-align: middle;
+  width: 48px;
+  height: 48px;
+}
+span.buttonText {
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 14px;
+  font-weight: bold;
+  margin-left: 5px;
+  font-family: 'Roboto', sans-serif;
+}
+
 @media only screen and (min-width: 700px) {
   .base {
     width: 700px;

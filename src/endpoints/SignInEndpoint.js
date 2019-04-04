@@ -6,15 +6,17 @@ const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders, EndedRe
 const { Endpoint, RequestBody } = require('@cuties/rest')
 const { ParsedJSON, StringifiedJSON } = require('@cuties/json')
 const { StringFromBuffer } = require('@cuties/buffer')
+const { IsNull } = require('@cuties/is')
 const GeneratedJWTByUser = require('./../async/GeneratedJWTByUser')
 const CreatedUser = require('./../async/CreatedUser')
+const CreatedUserByDataFromDb = require('./../async/CreatedUserByDataFromDb')
 const ExpirationTime = require('./../auth/ExpirationTime')
 const Secret = require('./../auth/Secret')
 const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryByEmailAndPassword = require('./../async/UserQueryByEmailAndPassword')
-const DoesDocumentExist = require('./../mongo/DoesDocumentExist')
+const FoundDocument = require('./../mongo/FoundDocument')
 const InsertedDocument = require('./../mongo/InsertedDocument')
 
 class SignInEndpoint extends Endpoint {
@@ -35,40 +37,44 @@ class SignInEndpoint extends Endpoint {
       )
     ).as('user').after(
       new If (
-        new DoesDocumentExist(
-          new Collection(
-            new Db(
-              this.mongoClient, 'db'
-            ),
-            'users'
-          ).as('usersCollection'),
-          new UserQueryByEmailAndPassword(
-            as('user')
-          )
+        new IsNull(
+          new FoundDocument(
+            new Collection(
+              new Db(
+                this.mongoClient, 'db'
+              ),
+              'users'
+            ).as('usersCollection'),
+              new UserQueryByEmailAndPassword(
+                as('user')
+              )
+          ).as('foundUser')
         ),
         new EndedResponse(
           new ResponseWithStatusCode(
             new ResponseWithHeader(
               response, 'Content-Type', 'application/json'
-            ), 200
-          ),
-          new StringifiedJSON(
-            new GeneratedJWTByUser(
-              as('user'),
-              new ExpirationTime(15),
-              new Secret()
-            )
-          )
+            ), 404
+          ), new StringifiedJSON({
+            errMessage: 'User not found'
+          })
         ),
         new Else(
           new EndedResponse(
             new ResponseWithStatusCode(
               new ResponseWithHeader(
                 response, 'Content-Type', 'application/json'
-              ), 404
-            ), new StringifiedJSON({
-              errMessage: 'User not found'
-            })
+              ), 200
+            ),
+            new StringifiedJSON(
+              new GeneratedJWTByUser(
+                new CreatedUserByDataFromDb(
+                  as('foundUser')
+                ),
+                new ExpirationTime(15),
+                new Secret()
+              )
+            )
           )
         )
       )
