@@ -19,9 +19,6 @@ Then type following commands:
 
 ```bash
 git clone git@github.com:Guseyn/simple-oauth-app.git
-```
-
-```bash
 npm install
 ```
 
