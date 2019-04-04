@@ -40,7 +40,7 @@ body {
 
 .center {
   width: 300px;
-  height: 300px;
+  height: 350px;
   position: absolute;
   margin: auto;
   top: 0;
@@ -82,7 +82,18 @@ body {
   background: #ff6666;
   color: #ffffff;
   font-size: 0.9em;
+  font-weight: bold;
   text-align: center;
+  margin-top: 4px;
+}
+
+.success {
+  background: #76b583;
+  color: #ffffff;
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: center;
+  margin-top: 4px;
 }
 
 input, textarea {
@@ -110,7 +121,7 @@ input[type="button"] {
   color: white;
 }
 
-#customBtn {
+.customSignIn {
   margin: 10px auto;
   background: white;
   color: #444;
@@ -120,20 +131,31 @@ input[type="button"] {
   box-shadow: 1px 1px 1px grey;
   white-space: nowrap;
 }
-#customBtn:hover {
+
+.customSignIn:hover {
   cursor: pointer;
 }
+
 span.label {
   font-family: serif;
   font-weight: normal;
 }
-span.icon {
+
+#google-icon {
   background: url('/images/g-logo.png') transparent 5px 50% no-repeat;
+}
+
+#github-icon {
+  background: url('/images/github-logo.png') transparent 5px 50% no-repeat;
+}
+
+span.icon {
   display: inline-block;
   vertical-align: middle;
   width: 48px;
   height: 48px;
 }
+
 span.buttonText {
   display: inline-block;
   vertical-align: middle;
@@ -141,6 +163,14 @@ span.buttonText {
   font-weight: bold;
   margin-left: 5px;
   font-family: 'Roboto', sans-serif;
+}
+
+input[type="button"]:hover {
+  background: #19c5ff;
+}
+
+input[type="button"]:active {
+  background: #00abe5;
 }
 
 @media only screen and (min-width: 700px) {

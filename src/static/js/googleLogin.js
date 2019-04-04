@@ -1,12 +1,11 @@
 function initGoogleLogin() {
-  let googleUser = {}
   gapi.load('auth2', () => {
     auth2 = gapi.auth2.init({
       client_id: '8310979471-lvmkisk1b33fjd25pjjqe8v8fa72rq2q.apps.googleusercontent.com',
       cookiepolicy: 'single_host_origin',
       scope: 'profile'
     })
-    attachSignin(document.getElementById('customBtn'));
+    attachSignin(document.getElementById('googleCustomBtn'));
   })
 }
 

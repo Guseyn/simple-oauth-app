@@ -14,7 +14,8 @@
     <script src="https://apis.google.com/js/api:client.js"></script>
     <script src="/../js/fetchJSON.js" type="text/javascript"></script>
     <script src="/../js/login.js" type="text/javascript"></script>
-    <script src="/../js/google-login.js" type="text/javascript"></script>
+    <script src="/../js/googleLogin.js" type="text/javascript"></script>
+    <script src="/../js/githubLogin.js" type="text/javascript"></script>
   </head>
 
   <body class="main">
@@ -23,8 +24,8 @@
         <input id="name" type="text" name="name" placeholder="Your name" style="display: none;">
         <input id="email" type="text" name="email" placeholder="Your email">
         <input id="password" type="password" name="password" placeholder="Your password">
-        <input id="go-button" type="button" value="Sign in"></input>
         <div id="error" class="error"></div>
+        <input id="go-button" type="button" value="Sign in"></input>
         <div class="mode">
           <span id="sign-up" class="as-link">Sign up</span>
           /
@@ -32,9 +33,13 @@
         </div>
       </div>
       <div style="text-align: center;">or</div>
-      <div id="customBtn" class="customGPlusSignIn">
-        <span class="icon"></span>
+      <div id="googleCustomBtn" class="customSignIn">
+        <span id="google-icon" class="icon"></span>
         <span class="buttonText">Sign in with Google</span>
+      </div>
+      <div id="githubCustomBtn" class="customSignIn">
+        <span id="github-icon" class="icon"></span>
+        <span class="buttonText">Sign in with Github</span>
       </div>
       <div id="name"></div>
     </div>
@@ -42,6 +47,7 @@
       if (!localStorage.getItem('jwt')) {
         initLogin()
         initGoogleLogin()
+        initGithubLogin()
       } else {
         location.replace('/html/profile.html')
       }

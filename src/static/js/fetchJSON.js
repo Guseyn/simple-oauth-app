@@ -1,5 +1,6 @@
 function fetchJSON(url = '', method, data, headers, okCallback, errCallback) {
   headers['Content-Type'] = 'application/json'
+  headers['Accept'] = 'application/json'
   return fetch(url, {
     method: method,
     headers: headers,

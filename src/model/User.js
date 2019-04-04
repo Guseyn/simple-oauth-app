@@ -3,13 +3,13 @@
 const ObjectID = require('mongodb').ObjectID
 
 class User {
-  constructor (id, name, email, password, description = '', signupDate = new Date()) {
+  constructor (id, name, email, password, description, signupDate) {
     this._id = id
-    this.name = name
-    this.email = email
-    this.password = password
-    this.description = description
-    this.signupDate = signupDate
+    this.name = name || 'default name'
+    this.email = email || 'default@email'
+    this.password = password || 'default password'
+    this.description = description || ''
+    this.signupDate = signupDate || new Date()
   }
 
   payload (exp) {
