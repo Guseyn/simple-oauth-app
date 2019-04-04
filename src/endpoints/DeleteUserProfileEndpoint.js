@@ -19,7 +19,6 @@ const DeletedDocument = require('./../mongo/DeletedDocument')
 const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
 const UserIdByJWT = require('./../async/UserIdByJWT')
 const VerifiedJWT = require('./../async/VerifiedJWT')
-const DoesDocumentExist = require('./../mongo/DoesDocumentExist')
 const UpdatedUserData = require('./../async/UpdatedUserData')
 
 class DeleteUserProfileEndpoint extends Endpoint {

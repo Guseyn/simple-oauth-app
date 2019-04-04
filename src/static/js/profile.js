@@ -20,10 +20,12 @@ function initProfile () {
       description.value = data.description
     },
     (errMessage) => {
+      localStorage.removeItem('jwt')
       location.replace('/../../')
     }
   )
   logoutLink.onclick = () => {
+    googleSignOut()
     localStorage.removeItem('jwt')
     location.replace('/../../')
   }
@@ -42,6 +44,7 @@ function initProfile () {
         location.reload()
       },
       (errMessage) => {
+        localStorage.removeItem('jwt')
         location.replace('/../../')
       }
     )
@@ -55,10 +58,12 @@ function initProfile () {
         'Authorization': 'Bearer ' + localStorage.getItem('jwt')
       },
       (data) => {
+        googleSignOut()
         localStorage.removeItem('jwt')
         location.replace('/../../')
       },
       (errMessage) => {
+        localStorage.removeItem('jwt')
         location.replace('/../../')
       }
     )

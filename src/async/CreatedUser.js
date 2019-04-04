@@ -5,13 +5,13 @@ const { AsyncObject } = require('@cuties/cutie')
 const User = require('./../model/User')
 
 class CreatedUser extends AsyncObject {
-  constructor (id, requestBody) {
-    super(id, requestBody)
+  constructor (id, data) {
+    super(id, data)
   }
 
   syncCall () {
-    return (id, requestBody) => {
-      return new User(id, requestBody.name, requestBody.email, requestBody.password, requestBody.description)
+    return (id, data) => {
+      return new User(id, data.name, data.email, data.password || '', data.description || '')
     }
   }
 }
