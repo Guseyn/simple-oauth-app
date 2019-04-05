@@ -11,7 +11,7 @@ class CreatedUserByDataFromDb extends AsyncObject {
 
   syncCall () {
     return (data) => {
-      return new User(data._id, data.name, data.email, data.password || '', data.description || '')
+      return new User(data._id, data.name, data.email, data.password, data.description)
     }
   }
 }
