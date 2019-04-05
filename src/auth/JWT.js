@@ -10,12 +10,10 @@ class JWT {
       alg: 'HS256', typ: 'JWT'
     }
     let payload = user.payload(exp.value())
-    let signature = crypto
-      .createHmac('sha256', secret.value())
-      .update(
-        `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`
-      )
-      .digest('base64')
+    let signature = this.hs256(
+      `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`,
+      secret.value()
+    )
     return `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}.${this.escape(signature)}`
   }
 
@@ -39,12 +37,10 @@ class JWT {
     if (exp < new Date().getTime()) {
       return false
     }
-    return crypto
-      .createHmac('sha256', secret.value())
-      .update(
-        `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`
-      )
-      .digest('base64') === this.unescape(signature)
+    return this.hs256(
+      `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`,
+      secret.value()
+    ) === this.unescape(signature)
   }
 
   base64UrlEncode (json) {
@@ -72,11 +68,11 @@ class JWT {
     return str.replace(/-/g, '+').replace(/_/g, '/')
   } 
 
-  hs256 (str) {
-    crypto
-      .createHmac('sha256', this.secret.value())
+  hs256 (str, secret) {
+    return crypto
+      .createHmac('sha256', secret)
       .update(str)
-      .digest('hex')
+      .digest('base64')
   }
 }
 
