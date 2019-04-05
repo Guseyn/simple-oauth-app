@@ -30,80 +30,78 @@ class GoogleAuthEndpoint extends Endpoint {
   }
 
   body (request, response) {
-    return new ParsedJSON(
-      new StringFromBuffer(
-        new ResponseBody(
-          new ResponseFromHttpsGetRequest(
-            new GoogleAuthRequestOptions(
-              new Value(
-                new ParsedJSON(
-                  new StringFromBuffer(
-                    new RequestBody(request)
+    return new Collection(
+      new Db(
+        this.mongoClient,
+        'db'
+      ),
+      'users'
+    ).as('usersCollection').after(
+      new CreatedUser(
+        new ObjectID(),
+        new ParsedJSON(
+          new StringFromBuffer(
+            new ResponseBody(
+              new ResponseFromHttpsGetRequest(
+                new GoogleAuthRequestOptions(
+                  new Value(
+                    new ParsedJSON(
+                      new StringFromBuffer(
+                        new RequestBody(request)
+                      )
+                    ),
+                    'googleToken'
                   )
-                ),
-                'googleToken'
+                )
               )
             )
           )
         )
-      )
-    ).as('googleUserData').after(
-      new Collection(
-        new Db(
-          this.mongoClient,
-          'db'
-        ),
-        'users'
-      ).as('usersCollection').after(
-        new CreatedUser(
-          new ObjectID(),
-          as('googleUserData')
-        ).as('newUser').after(
-          new If(
-            new IsNull(
-              new FoundDocument(
-                as('usersCollection'),
-                new UserQueryByEmail(
-                  as('newUser')
-                )
-              ).as('existingUser')
-            ),
-            new InsertedDocument(
+      ).as('newUser').after(
+        new If(
+          new IsNull(
+            new FoundDocument(
               as('usersCollection'),
-              as('newUser')
-            ).after(
-              new EndedResponse(
-                new ResponseWithStatusCode(
-                  new ResponseWithHeader(
-                    response, 'Content-Type', 'application/json'
-                  ), 200
-                ),
-                new StringifiedJSON(
-                  new GeneratedJWTByUser(
-                    new CreatedUserByDataFromDb(
-                      as('newUser')
-                    ),
-                    new ExpirationTime(15),
-                    new Secret()
-                  )
+              new UserQueryByEmail(
+                as('newUser')
+              )
+            ).as('existingUser')
+          ),
+          new InsertedDocument(
+            as('usersCollection'),
+            as('newUser')
+          ).after(
+            new EndedResponse(
+              new ResponseWithStatusCode(
+                new ResponseWithHeader(
+                  response, 'Content-Type', 'application/json'
+                ), 200
+              ),
+              new StringifiedJSON(
+                new GeneratedJWTByUser(
+                  new CreatedUserByDataFromDb(
+                    as('newUser')
+                  ),
+                  new ExpirationTime(15),
+                  new Secret()
                 )
               )
-            ),
-            new Else(
-              new EndedResponse(
-                new ResponseWithStatusCode(
-                  new ResponseWithHeader(
-                    response, 'Content-Type', 'application/json'
-                  ), 200
-                ),
-                new StringifiedJSON(
-                  new GeneratedJWTByUser(
-                    new CreatedUserByDataFromDb(
-                      as('existingUser')
-                    ),
-                    new ExpirationTime(15),
-                    new Secret()
-                  )
+            )
+          ),
+          new Else(
+            new EndedResponse(
+              new ResponseWithStatusCode(
+                new ResponseWithHeader(
+                  response, 'Content-Type', 'application/json'
+                ), 200
+              ),
+              new StringifiedJSON(
+                new GeneratedJWTByUser(
+                  new CreatedUserByDataFromDb(
+                    as('existingUser')
+                  ),
+                  new ExpirationTime(15),
+                  new Secret()
                 )
               )
             )

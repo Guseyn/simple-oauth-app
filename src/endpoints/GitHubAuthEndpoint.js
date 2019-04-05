@@ -44,91 +44,87 @@ class GitHubAuthEndpoint extends Endpoint {
       new ParsedJSON(
         new StringFromBuffer(
           new ResponseBody(
-            new ResponseFromHttpsRequest(
-              new GitHubAuthRequestOptions(
-                as('githubCode')
-              ),
-              new StringifiedJSON(
-                new GitHubAuthRequestBody(
-                  as('githubCode')
+            new ResponseFromHttpsGetRequest(
+              new GitHubGetUserRequestOptions(
+                new Value(
+                  new ParsedJSON(
+                    new StringFromBuffer(
+                      new ResponseBody(
+                        new ResponseFromHttpsRequest(
+                          new GitHubAuthRequestOptions(
+                            as('githubCode')
+                          ),
+                          new StringifiedJSON(
+                            new GitHubAuthRequestBody(
+                              as('githubCode')
+                            )
+                          )
+                        )
+                      )
+                    )
+                  ),
+                  'access_token'
                 )
               )
             )
           )
         )
-      ).as('githubToken').after(
-        new Value(
-          as('githubToken'),
-          'access_token'
-        ).as('githubTokenValue').after(
-          new ParsedJSON(
-            new StringFromBuffer(
-              new ResponseBody(
-                new ResponseFromHttpsGetRequest(
-                  new GitHubGetUserRequestOptions(
-                    as('githubTokenValue')
+      ).as('githubUserData').after(
+        new Collection(
+          new Db(
+            this.mongoClient,
+            'db'
+          ),
+          'users'
+        ).as('usersCollection').after(
+          new CreatedUser(
+            new ObjectID(),
+            as('githubUserData')
+          ).as('newUser').after(
+            new If(
+              new IsNull(
+                new FoundDocument(
+                  as('usersCollection'),
+                  new UserQueryByEmail(
+                    as('newUser')
+                  )
+                ).as('existingUser')
+              ),
+              new InsertedDocument(
+                as('usersCollection'),
+                as('newUser')
+              ).after(
+                new EndedResponse(
+                  new ResponseWithStatusCode(
+                    new ResponseWithHeader(
+                      response, 'Content-Type', 'application/json'
+                    ), 200
+                  ),
+                  new StringifiedJSON(
+                    new GeneratedJWTByUser(
+                      new CreatedUserByDataFromDb(
+                        as('newUser')
+                      ),
+                      new ExpirationTime(15),
+                      new Secret()
+                    )
                   )
                 )
-              )
-            )
-          ).as('githubUserData').after(
-            new Collection(
-              new Db(
-                this.mongoClient,
-                'db'
               ),
-              'users'
-            ).as('usersCollection').after(
-              new CreatedUser(
-                new ObjectID(),
-                as('githubUserData')
-              ).as('newUser').after(
-                new If(
-                  new IsNull(
-                    new FoundDocument(
-                      as('usersCollection'),
-                      new UserQueryByEmail(
-                        as('newUser')
-                      )
-                    ).as('existingUser')
+              new Else(
+                new EndedResponse(
+                  new ResponseWithStatusCode(
+                    new ResponseWithHeader(
+                      response, 'Content-Type', 'application/json'
+                    ), 200
                   ),
-                  new InsertedDocument(
-                    as('usersCollection'),
-                    as('newUser')
-                  ).after(
-                    new EndedResponse(
-                      new ResponseWithStatusCode(
-                        new ResponseWithHeader(
-                          response, 'Content-Type', 'application/json'
-                        ), 200
+                  new StringifiedJSON(
+                    new GeneratedJWTByUser(
+                      new CreatedUserByDataFromDb(
+                        as('existingUser')
                       ),
-                      new StringifiedJSON(
-                        new GeneratedJWTByUser(
-                          new CreatedUserByDataFromDb(
-                            as('newUser')
-                          ),
-                          new ExpirationTime(15),
-                          new Secret()
-                        )
-                      )
-                    )
-                  ),
-                  new Else(
-                    new EndedResponse(
-                      new ResponseWithStatusCode(
-                        new ResponseWithHeader(
-                          response, 'Content-Type', 'application/json'
-                        ), 200
-                      ),
-                      new StringifiedJSON(
-                        new GeneratedJWTByUser(
-                          new CreatedUserByDataFromDb(
-                            as('existingUser')
-                          ),
-                          new ExpirationTime(15),
-                          new Secret()
-                        )
-                      )
+                      new ExpirationTime(15),
+                      new Secret()
                     )
                   )
                 )
