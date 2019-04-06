@@ -31,11 +31,11 @@ class JWT {
 
   /* Super simple logic */
   isValid (value, secret) {
-    let parts = value.split('.')
-    let header = this.base64UrlDecode(parts[0])
-    let payload = this.base64UrlDecode(parts[1])
-    let signature = parts[2]
-    let exp = payload.exp
+    const parts = value.split('.')
+    const header = this.base64UrlDecode(parts[0])
+    const payload = this.base64UrlDecode(parts[1])
+    const signature = parts[2]
+    const exp = payload.exp
     if (exp < new Date().getTime()) {
       return false
     }
