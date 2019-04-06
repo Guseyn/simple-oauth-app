@@ -17,7 +17,7 @@ const Collection = require('./../mongo/Collection')
 const UserQueryById = require('./../async/UserQueryById')
 const FoundDocument = require('./../mongo/FoundDocument')
 const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
-const VerifiedJWT = require('./../async/VerifiedJWT')
+const IsJWTValid = require('./../async/IsJWTValid')
 const UserIdByJWT = require('./../async/UserIdByJWT')
 
 class UserProfileEndpoint extends Endpoint {
@@ -28,7 +28,7 @@ class UserProfileEndpoint extends Endpoint {
 
   body (request, response) {
     return new If(
-      new VerifiedJWT(
+      new IsJWTValid(
         new GeneratedJWTByAuthHeader(
           new Value(
             new HeadersOfIncomingMessage(request),

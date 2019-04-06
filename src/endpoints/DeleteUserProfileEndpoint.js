@@ -18,7 +18,7 @@ const UserQueryById = require('./../async/UserQueryById')
 const DeletedDocument = require('./../mongo/DeletedDocument')
 const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
 const UserIdByJWT = require('./../async/UserIdByJWT')
-const VerifiedJWT = require('./../async/VerifiedJWT')
+const IsJWTValid = require('./../async/IsJWTValid')
 const UpdatedUserData = require('./../async/UpdatedUserData')
 
 class DeleteUserProfileEndpoint extends Endpoint {
@@ -29,7 +29,7 @@ class DeleteUserProfileEndpoint extends Endpoint {
 
   body (request, response) {
     return new If(
-      new VerifiedJWT(
+      new IsJWTValid(
         new GeneratedJWTByAuthHeader(
           new Value(
             new HeadersOfIncomingMessage(request),

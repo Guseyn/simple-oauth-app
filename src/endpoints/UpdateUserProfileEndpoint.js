@@ -19,7 +19,7 @@ const UserQueryById = require('./../async/UserQueryById')
 const UpdatedDocument = require('./../mongo/UpdatedDocument')
 const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
 const UserIdByJWT = require('./../async/UserIdByJWT')
-const VerifiedJWT = require('./../async/VerifiedJWT')
+const IsJWTValid = require('./../async/IsJWTValid')
 const UpdatedUserData = require('./../async/UpdatedUserData')
 
 class UpdateUserProfileEndpoint extends Endpoint {
@@ -30,7 +30,7 @@ class UpdateUserProfileEndpoint extends Endpoint {
 
   body (request, response) {
     return new If(
-      new VerifiedJWT(
+      new IsJWTValid(
         new GeneratedJWTByAuthHeader(
           new Value(
             new HeadersOfIncomingMessage(request),

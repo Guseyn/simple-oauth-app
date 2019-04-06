@@ -6,15 +6,17 @@ class JWT {
   constructor () { }
   
   valueByUser (user, exp, secret) {
-    let header = {
-      alg: 'HS256', typ: 'JWT'
+    const header = {
+      alg: 'HS256',
+      typ: 'JWT'
     }
-    let payload = user.payload(exp.value())
-    let signature = this.hs256(
-      `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`,
-      secret.value()
+    const payload = user.payload(exp.value())
+    const encodedHeaderInBase64 = this.base64UrlEncode(header)
+    const encodedPayloadInBase64 = this.base64UrlEncode(payload)
+    const encodedSignatureInBase64 = this.generateSignature(
+      `${encodedHeaderInBase64}.${encodedPayloadInBase64}`, secret.value()
     )
-    return `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}.${this.escape(signature)}`
+    return `${encodedHeaderInBase64}.${encodedPayloadInBase64}.${encodedSignatureInBase64}`
   }
 
   valueByAuthHeader (header) {
@@ -28,7 +30,7 @@ class JWT {
   }
 
   /* Super simple logic */
-  verify (value, secret) {
+  isValid (value, secret) {
     let parts = value.split('.')
     let header = this.base64UrlDecode(parts[0])
     let payload = this.base64UrlDecode(parts[1])
@@ -37,42 +39,32 @@ class JWT {
     if (exp < new Date().getTime()) {
       return false
     }
-    return this.hs256(
-      `${this.base64UrlEncode(header)}.${this.base64UrlEncode(payload)}`,
-      secret.value()
-    ) === this.unescape(signature)
+    return this.generateSignature(`${parts[0]}.${parts[1]}`, secret.value()) === signature
   }
 
   base64UrlEncode (json) {
-    return this.escape(
-      Buffer.from(
-        JSON.stringify(json)
-      )
-      .toString('base64')
-    )
+    return Buffer.from(
+      JSON.stringify(json)
+    ).toString('base64')
+     .replace(/\+/g, '-')
+     .replace(/\//g, '_')
   }
 
   base64UrlDecode (str) {
     return JSON.parse(
       Buffer.from(
-        this.unescape(str), 'base64'
+        str.replace(/-/g, '+').replace(/_/g, '/'), 'base64'
       ).toString('utf8')
     )
   }
 
-  escape (str) {
-    return str.replace(/\+/g, '-').replace(/\//g, '_')
-  }
-
-  unescape (str) {
-    return str.replace(/-/g, '+').replace(/_/g, '/')
-  } 
-
-  hs256 (str, secret) {
+  generateSignature (str, secret) {
     return crypto
       .createHmac('sha256', secret)
       .update(str)
       .digest('base64')
+      .replace(/\+/g, '-')
+      .replace(/\//g, '_')
   }
 }
 
