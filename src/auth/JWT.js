@@ -24,8 +24,8 @@ class JWT {
   }
 
   userId (value) {
-    let parts = value.split('.')
-    let payload = this.base64UrlDecode(parts[1])
+    const parts = value.split('.')
+    const payload = this.base64UrlDecode(parts[1])
     return payload.sub
   }
 
