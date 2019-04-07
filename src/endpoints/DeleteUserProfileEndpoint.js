@@ -2,24 +2,17 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders, EndedResponse, HeadersOfIncomingMessage } = require('@cuties/http')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
+const { JWTOfRequest, IsHS256JWTValid, JWTPayloadValue } = require('@cuties/jwt')
 const { Value } = require('@cuties/object')
-const { Endpoint, RequestBody } = require('@cuties/rest')
-const { ParsedJSON, StringifiedJSON } = require('@cuties/json')
-const { StringFromBuffer } = require('@cuties/buffer')
-const GeneratedJWTByUser = require('./../async/GeneratedJWTByUser')
+const { Endpoint } = require('@cuties/rest')
+const { StringifiedJSON } = require('@cuties/json')
 const CreatedUserWithOnlyId = require('./../async/CreatedUserWithOnlyId')
-const ExpirationTime = require('./../auth/ExpirationTime')
-const Secret = require('./../auth/Secret')
-const ObjectID = require('mongodb').ObjectID
+const Secret = require('./../async/Secret')
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryById = require('./../async/UserQueryById')
 const DeletedDocument = require('./../mongo/DeletedDocument')
-const GeneratedJWTByAuthHeader = require('./../async/GeneratedJWTByAuthHeader')
-const UserIdByJWT = require('./../async/UserIdByJWT')
-const IsJWTValid = require('./../async/IsJWTValid')
-const UpdatedUserData = require('./../async/UpdatedUserData')
 
 class DeleteUserProfileEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
@@ -29,18 +22,15 @@ class DeleteUserProfileEndpoint extends Endpoint {
 
   body (request, response) {
     return new If(
-      new IsJWTValid(
-        new GeneratedJWTByAuthHeader(
-          new Value(
-            new HeadersOfIncomingMessage(request),
-            'authorization'
-          )
+      new IsHS256JWTValid(
+        new JWTOfRequest(
+          request
         ).as('jwt'),
         new Secret()
       ),
       new CreatedUserWithOnlyId(
-        new UserIdByJWT(
-          as('jwt')
+        new JWTPayloadValue(
+          as('jwt'), 'sub'
         )
       ).as('user').after(
         new EndedResponse(
@@ -60,7 +50,7 @@ class DeleteUserProfileEndpoint extends Endpoint {
                   as('user')
                 ),
                 {
-                  projection: { 
+                  projection: {
                     _id: 1,
                     name: 1,
                     email: 1,

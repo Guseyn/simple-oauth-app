@@ -35,7 +35,7 @@ function initLogin () {
         },
         (errMessage) => {
           errorField.innerHTML = errMessage
-          setTimeout(function() {
+          setTimeout(function () {
             errorField.innerHTML = ''
           }, 2000)
         }
@@ -57,7 +57,7 @@ function initLogin () {
         },
         (errMessage) => {
           errorField.innerHTML = errMessage
-          setTimeout(function() {
+          setTimeout(function () {
             errorField.innerHTML = ''
           }, 2000)
         }

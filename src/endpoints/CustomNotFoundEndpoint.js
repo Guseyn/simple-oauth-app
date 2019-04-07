@@ -1,4 +1,4 @@
-    
+
 'use strict'
 
 const { NotFoundEndpoint } = require('@cuties/rest')

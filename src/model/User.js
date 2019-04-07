@@ -12,10 +12,9 @@ class User {
     this.signupDate = signupDate || new Date()
   }
 
-  payload (exp) {
+  payload () {
     return {
-      sub: this._id,
-      exp: exp
+      sub: this._id
     }
   }
 

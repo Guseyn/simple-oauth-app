@@ -11,15 +11,15 @@ class GitHubGetUserRequestOptions extends AsyncObject {
   syncCall () {
     return (githubToken) => {
       return {
-         hostname: 'api.github.com',
-         port: 443,
-         path: `/user?access_token=${githubToken}`,
-         method: 'GET',
-         headers: {
+        hostname: 'api.github.com',
+        port: 443,
+        path: `/user?access_token=${githubToken}`,
+        method: 'GET',
+        headers: {
           'Accept': 'application/json',
           'Authorization': `token ${githubToken}`,
           'User-Agent': 'node.js'
-         }
+        }
       }
     }
   }

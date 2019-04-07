@@ -2,15 +2,15 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders, EndedResponse } = require('@cuties/http')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
 const { Endpoint, RequestBody } = require('@cuties/rest')
+const { GeneratedHS256JWT } = require('@cuties/jwt')
 const { ParsedJSON, StringifiedJSON } = require('@cuties/json')
 const { StringFromBuffer } = require('@cuties/buffer')
 const { IsNull } = require('@cuties/is')
-const GeneratedJWTByUser = require('./../async/GeneratedJWTByUser')
 const CreatedUser = require('./../async/CreatedUser')
-const ExpirationTime = require('./../auth/ExpirationTime')
-const Secret = require('./../auth/Secret')
+const PayloadOfUser = require('./../async/PayloadOfUser')
+const Secret = require('./../async/Secret')
 const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
@@ -59,10 +59,12 @@ class SignUpEndpoint extends Endpoint {
                 response, 'Content-Type', 'application/json'
               ), 200
             ), new StringifiedJSON(
-              new GeneratedJWTByUser(
-                as('newUser'),
-                new ExpirationTime(15),
-                new Secret()
+              new GeneratedHS256JWT(
+                new PayloadOfUser(
+                  as('newUser')
+                ),
+                new Secret(),
+                15
               )
             )
           )

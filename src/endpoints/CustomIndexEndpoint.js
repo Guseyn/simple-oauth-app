@@ -2,7 +2,7 @@
 'use strict'
 
 const { CreatedReadStream } = require('@cuties/fs')
-const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders } = require('@cuties/http')
+const { ResponseWithStatusCode, ResponseWithHeaders } = require('@cuties/http')
 const { PipedReadable, ReadableWithErrorEvent } = require('@cuties/stream')
 const { IndexEndpoint } = require('@cuties/rest')
 const NotFoundErrorEvent = require('./../events/NotFoundErrorEvent')
@@ -26,7 +26,7 @@ class CustomIndexEndpoint extends IndexEndpoint {
       ),
       new ResponseWithStatusCode(
         new ResponseWithHeaders(
-          response, { 
+          response, {
             'Cache-Control': 'no-cache',
             'Content-Type': 'text/html'
           }

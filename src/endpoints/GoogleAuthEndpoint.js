@@ -2,17 +2,17 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders, EndedResponse, ResponseBody } = require('@cuties/http')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse, ResponseBody } = require('@cuties/http')
 const { ResponseFromHttpsGetRequest } = require('@cuties/https')
 const { Endpoint, RequestBody } = require('@cuties/rest')
+const { GeneratedHS256JWT } = require('@cuties/jwt')
 const { ParsedJSON, StringifiedJSON, Value } = require('@cuties/json')
 const { StringFromBuffer } = require('@cuties/buffer')
 const { IsNull } = require('@cuties/is')
-const GeneratedJWTByUser = require('./../async/GeneratedJWTByUser')
 const CreatedUser = require('./../async/CreatedUser')
+const PayloadOfUser = require('./../async/PayloadOfUser')
 const CreatedUserByDataFromDb = require('./../async/CreatedUserByDataFromDb')
-const ExpirationTime = require('./../auth/ExpirationTime')
-const Secret = require('./../auth/Secret')
+const Secret = require('./../async/Secret')
 const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
@@ -20,8 +20,7 @@ const UserQueryByEmail = require('./../async/UserQueryByEmail')
 const GoogleAuthRequestOptions = require('./../async/GoogleAuthRequestOptions')
 const InsertedDocument = require('./../mongo/InsertedDocument')
 const FoundDocument = require('./../mongo/FoundDocument')
-const clientId = '8310979471-0a4knr38ku66hgig0cv74156sjvrkbm3.apps.googleusercontent.com'
-const clientSecret = '0Uwu8x2bPcPZphBkoWLqrO9b'
+const JWTResponse = require('./../async/JWTResponse')
 
 class GoogleAuthEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
@@ -78,12 +77,16 @@ class GoogleAuthEndpoint extends Endpoint {
                 ), 200
               ),
               new StringifiedJSON(
-                new GeneratedJWTByUser(
-                  new CreatedUserByDataFromDb(
-                    as('newUser')
-                  ),
-                  new ExpirationTime(15),
-                  new Secret()
+                new JWTResponse(
+                  new GeneratedHS256JWT(
+                    new PayloadOfUser(
+                      new CreatedUserByDataFromDb(
+                        as('newUser')
+                      )
+                    ),
+                    new Secret(),
+                    15
+                  )
                 )
               )
             )
@@ -96,12 +99,16 @@ class GoogleAuthEndpoint extends Endpoint {
                 ), 200
               ),
               new StringifiedJSON(
-                new GeneratedJWTByUser(
-                  new CreatedUserByDataFromDb(
-                    as('existingUser')
-                  ),
-                  new ExpirationTime(15),
-                  new Secret()
+                new JWTResponse(
+                  new GeneratedHS256JWT(
+                    new PayloadOfUser(
+                      new CreatedUserByDataFromDb(
+                        as('existingUser')
+                      )
+                    ),
+                    new Secret(),
+                    15
+                  )
                 )
               )
             )

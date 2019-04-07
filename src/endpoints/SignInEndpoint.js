@@ -2,22 +2,21 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, ResponseWithHeaders, EndedResponse } = require('@cuties/http')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
 const { Endpoint, RequestBody } = require('@cuties/rest')
+const { GeneratedHS256JWT } = require('@cuties/jwt')
 const { ParsedJSON, StringifiedJSON } = require('@cuties/json')
 const { StringFromBuffer } = require('@cuties/buffer')
 const { IsNull } = require('@cuties/is')
-const GeneratedJWTByUser = require('./../async/GeneratedJWTByUser')
 const CreatedUser = require('./../async/CreatedUser')
+const PayloadOfUser = require('./../async/PayloadOfUser')
 const CreatedUserByDataFromDb = require('./../async/CreatedUserByDataFromDb')
-const ExpirationTime = require('./../auth/ExpirationTime')
-const Secret = require('./../auth/Secret')
-const ObjectID = require('mongodb').ObjectID
+const Secret = require('./../async/Secret')
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryByEmailAndPassword = require('./../async/UserQueryByEmailAndPassword')
 const FoundDocument = require('./../mongo/FoundDocument')
-const InsertedDocument = require('./../mongo/InsertedDocument')
+const JWTResponse = require('./../async/JWTResponse')
 
 class SignInEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
@@ -36,7 +35,7 @@ class SignInEndpoint extends Endpoint {
         )
       )
     ).as('user').after(
-      new If (
+      new If(
         new IsNull(
           new FoundDocument(
             new Collection(
@@ -45,9 +44,9 @@ class SignInEndpoint extends Endpoint {
               ),
               'users'
             ).as('usersCollection'),
-              new UserQueryByEmailAndPassword(
-                as('user')
-              )
+            new UserQueryByEmailAndPassword(
+              as('user')
+            )
           ).as('foundUser')
         ),
         new EndedResponse(
@@ -67,12 +66,16 @@ class SignInEndpoint extends Endpoint {
               ), 200
             ),
             new StringifiedJSON(
-              new GeneratedJWTByUser(
-                new CreatedUserByDataFromDb(
-                  as('foundUser')
-                ),
-                new ExpirationTime(15),
-                new Secret()
+              new JWTResponse(
+                new GeneratedHS256JWT(
+                  new PayloadOfUser(
+                    new CreatedUserByDataFromDb(
+                      as('foundUser')
+                    )
+                  ),
+                  new Secret(),
+                  15
+                )
               )
             )
           )

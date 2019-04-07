@@ -11,10 +11,10 @@ class GoogleAuthRequestOptions extends AsyncObject {
   syncCall () {
     return (googleToken) => {
       return {
-         hostname: 'www.googleapis.com',
-         port: 443,
-         path: `/oauth2/v3/tokeninfo?id_token=${googleToken}`,
-         method: 'GET'
+        hostname: 'www.googleapis.com',
+        port: 443,
+        path: `/oauth2/v3/tokeninfo?id_token=${googleToken}`,
+        method: 'GET'
       }
     }
   }

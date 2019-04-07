@@ -41,7 +41,7 @@ function initProfile () {
       },
       (data) => {
         successField.innerHTML = 'Successfully updated'
-        setTimeout(function() {
+        setTimeout(function () {
           successField.innerHTML = ''
         }, 2000)
       },
