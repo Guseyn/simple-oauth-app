@@ -22,6 +22,12 @@ git clone git@github.com:Guseyn/simple-oauth-app.git
 npm install
 ```
 
+## Build app
+
+```bash
+npm run build
+```
+
 ## Run app
 
 ```bash
