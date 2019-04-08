@@ -2,13 +2,13 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse, ResponseBody } = require('@cuties/http')
-const { ResponseFromHttpsGetRequest } = require('@cuties/https')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
 const { Endpoint, RequestBody } = require('@cuties/rest')
 const { GeneratedHS256JWT } = require('@cuties/jwt')
 const { ParsedJSON, StringifiedJSON, Value } = require('@cuties/json')
 const { StringFromBuffer } = require('@cuties/buffer')
 const { IsNull } = require('@cuties/is')
+const { GoogleUserData } = require('@cuties/oauth')
 const CreatedUser = require('./../async/CreatedUser')
 const PayloadOfUser = require('./../async/PayloadOfUser')
 const CreatedUserByDataFromDb = require('./../async/CreatedUserByDataFromDb')
@@ -17,7 +17,6 @@ const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryByEmail = require('./../async/UserQueryByEmail')
-const GoogleAuthRequestOptions = require('./../async/GoogleAuthRequestOptions')
 const InsertedDocument = require('./../mongo/InsertedDocument')
 const FoundDocument = require('./../mongo/FoundDocument')
 const JWTResponse = require('./../async/JWTResponse')
@@ -38,22 +37,14 @@ class GoogleAuthEndpoint extends Endpoint {
     ).as('usersCollection').after(
       new CreatedUser(
         new ObjectID(),
-        new ParsedJSON(
-          new StringFromBuffer(
-            new ResponseBody(
-              new ResponseFromHttpsGetRequest(
-                new GoogleAuthRequestOptions(
-                  new Value(
-                    new ParsedJSON(
-                      new StringFromBuffer(
-                        new RequestBody(request)
-                      )
-                    ),
-                    'googleToken'
-                  )
-                )
+        new GoogleUserData(
+          new Value(
+            new ParsedJSON(
+              new StringFromBuffer(
+                new RequestBody(request)
               )
-            )
+            ),
+            'googleToken'
           )
         )
       ).as('newUser').after(

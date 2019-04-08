@@ -3,7 +3,7 @@
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
 const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
-const { JWTOfRequest, IsHS256JWTValid } = require('@cuties/jwt')
+const { JWTOfRequest, IsHS256JWTValid, JWTPayloadValue } = require('@cuties/jwt')
 const { Value } = require('@cuties/object')
 const { Endpoint, RequestBody } = require('@cuties/rest')
 const { ParsedJSON, StringifiedJSON } = require('@cuties/json')

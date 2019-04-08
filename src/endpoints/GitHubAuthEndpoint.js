@@ -2,14 +2,14 @@
 
 const { as } = require('@cuties/cutie')
 const { If, Else } = require('@cuties/if-else')
-const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse, ResponseBody } = require('@cuties/http')
-const { ResponseFromHttpsGetRequest, ResponseFromHttpsRequest } = require('@cuties/https')
+const { ResponseWithStatusCode, ResponseWithHeader, EndedResponse } = require('@cuties/http')
 const { Endpoint, RequestBody } = require('@cuties/rest')
 const { ParsedJSON, StringifiedJSON } = require('@cuties/json')
 const { Value } = require('@cuties/object')
 const { StringFromBuffer } = require('@cuties/buffer')
 const { IsNull } = require('@cuties/is')
 const { GeneratedHS256JWT } = require('@cuties/jwt')
+const { GitHubUserData } = require('@cuties/oauth')
 const CreatedUser = require('./../async/CreatedUser')
 const PayloadOfUser = require('./../async/PayloadOfUser')
 const CreatedUserByDataFromDb = require('./../async/CreatedUserByDataFromDb')
@@ -18,12 +18,11 @@ const ObjectID = require('mongodb').ObjectID
 const Db = require('./../mongo/Db')
 const Collection = require('./../mongo/Collection')
 const UserQueryByEmail = require('./../async/UserQueryByEmail')
-const GitHubAuthRequestOptions = require('./../async/GitHubAuthRequestOptions')
-const GitHubAuthRequestBody = require('./../async/GitHubAuthRequestBody')
-const GitHubGetUserRequestOptions = require('./../async/GitHubGetUserRequestOptions')
 const InsertedDocument = require('./../mongo/InsertedDocument')
 const FoundDocument = require('./../mongo/FoundDocument')
 const JWTResponse = require('./../async/JWTResponse')
+const clientId = '9740bb12713949b1c23d'
+const clientSecret = '300c8427a2562a2851e4dc7dbc1e3a7b50328c8c'
 
 class GitHubAuthEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
@@ -40,34 +39,8 @@ class GitHubAuthEndpoint extends Endpoint {
       ),
       'code'
     ).as('githubCode').after(
-      new ParsedJSON(
-        new StringFromBuffer(
-          new ResponseBody(
-            new ResponseFromHttpsGetRequest(
-              new GitHubGetUserRequestOptions(
-                new Value(
-                  new ParsedJSON(
-                    new StringFromBuffer(
-                      new ResponseBody(
-                        new ResponseFromHttpsRequest(
-                          new GitHubAuthRequestOptions(
-                            as('githubCode')
-                          ),
-                          new StringifiedJSON(
-                            new GitHubAuthRequestBody(
-                              as('githubCode')
-                            )
-                          )
-                        )
-                      )
-                    )
-                  ),
-                  'access_token'
-                )
-              )
-            )
-          )
-        )
+      new GitHubUserData(
+        as('githubCode'), clientId, clientSecret
       ).as('githubUserData').after(
         new Collection(
           new Db(
