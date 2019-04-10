@@ -17,6 +17,7 @@ const Collection = require('./../mongo/Collection')
 const UserQueryByEmail = require('./../async/UserQueryByEmail')
 const FoundDocument = require('./../mongo/FoundDocument')
 const InsertedDocument = require('./../mongo/InsertedDocument')
+const JWTResponse = require('./../async/JWTResponse')
 
 class SignUpEndpoint extends Endpoint {
   constructor (regexpUrl, type, mongoClient) {
@@ -59,12 +60,14 @@ class SignUpEndpoint extends Endpoint {
                 response, 'Content-Type', 'application/json'
               ), 200
             ), new StringifiedJSON(
-              new GeneratedHS256JWT(
-                new PayloadOfUser(
-                  as('newUser')
-                ),
-                new Secret(),
-                15
+              new JWTResponse(
+                new GeneratedHS256JWT(
+                  new PayloadOfUser(
+                    as('newUser')
+                  ),
+                  new Secret(),
+                  15
+                )
               )
             )
           )
