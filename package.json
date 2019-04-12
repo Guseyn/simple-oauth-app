@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/Guseyn/simple-oauth-app#readme",
   "dependencies": {
+    "@cuties/created": "^1.0.1",
     "@cuties/cutie": "^1.7.3",
     "@cuties/http": "^1.3.3",
     "@cuties/https": "^1.1.3",
