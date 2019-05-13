@@ -7,7 +7,7 @@ Simple oauth app in Node.js. It's completely based on [Async Tree Pattern](https
 
 ## Why this example is cool
 
-1. It's based on `@cuties`, so you can write your asyncronous code in the declarative way (without callbacks, Promises, and async/await abstractions).
+1. It's based on `@cuties`, so you can write your asynchronous code in the declarative way (without callbacks, Promises, and async/await abstractions).
 2. You can see how authentication can be implemented with only simple external https requests.
 3. You can see how **JWT** works (this app doesn't use third party libraries for using **JWT**).
 
