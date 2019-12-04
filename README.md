@@ -56,7 +56,7 @@ User: {
 2. Google OAuth
 2. GitHub OAuth
 
-All these types are synchronized, so you can everytime choose different way to sign in your profile.
+All these types are synchronized by email, so you can everytime choose different way to sign in your profile.
 
 ## Screenshots
 
