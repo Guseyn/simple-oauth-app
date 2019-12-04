@@ -1,4 +1,4 @@
-# simple-oauth-app
+# Simple Oauth App
 Simple oauth app in Node.js. It's completely based on [Async Tree Pattern](https://guseyn.com/pdf/Async_Tree_Pattern.pdf). The main point of this app is to show that it's possible to create oauth app in the declarative way.
 
 ## Stack of technologies
