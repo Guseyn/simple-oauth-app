@@ -19,6 +19,8 @@ docker-compose up -d mongo
 docker-compose up app
 ```
 
+You can open it on [http://localhost:8000/](http://localhost:8000/)
+
 ## Installation without docker
 
 First of all you need to install MongoDB on your machine.
