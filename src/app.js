@@ -22,11 +22,11 @@ const mapper = (url) => {
   return path.join('src', 'static', ...url.split('?')[0].split('/').filter(path => path !== ''))
 }
 
-new ConnectedMongoClient('mongodb://localhost:27017').as('mongoClient').after(
+new ConnectedMongoClient('mongodb://mongo:27017').as('mongoClient').after(
   new Backend(
     'http',
     8000,
-    '127.0.0.1',
+    '0.0.0.0',
     new RestApi(
       new CustomIndexEndpoint('./src/static/html/index.html', notFoundEndpoint),
       new ServingFilesEndpoint(new RegExp(/^\/(html|css|js|images)/), mapper, {}, notFoundEndpoint),

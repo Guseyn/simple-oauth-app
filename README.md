@@ -31,7 +31,7 @@ npm run build
 ## Run app
 
 ```bash
-npm run start
+npm start
 ```
 
 You can open it on [http://localhost:8000/](http://localhost:8000/)
