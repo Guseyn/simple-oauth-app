@@ -1,5 +1,5 @@
-# simple-oauth-app
-Simple oauth app in Node.js. It's completely based on [Async Tree Pattern](https://guseyn.com/pdf/Async_Tree_Pattern.pdf). The main point of this app is to show that it's possible to create oauth app in the declarative way.
+# Simple OAuth App
+This app is completely based on [Async Tree Pattern](https://guseyn.com/pdf/Async_Tree_Pattern.pdf). The main point of this app is to show that it's possible to create oauth app in the declarative way.
 
 ## Stack of technologies
 
@@ -7,7 +7,7 @@ Simple oauth app in Node.js. It's completely based on [Async Tree Pattern](https
 
 ## Why this example is cool
 
-1. It's based on `@cuties`, so you can write your asyncronous code in the declarative way (without callbacks, Promises, and async/await abstractions).
+1. It's based on `@cuties`, so you can write your asynchronous code in the declarative way (without callbacks, Promises, and async/await abstractions).
 2. You can see how authentication can be implemented with only simple external https requests.
 3. You can see how **JWT** works (this app doesn't use third party libraries for using **JWT**).
 
@@ -19,6 +19,7 @@ Then type following commands:
 
 ```bash
 git clone git@github.com:Guseyn/simple-oauth-app.git
+cd simple-oauth-app
 npm install
 ```
 
@@ -55,7 +56,7 @@ User: {
 2. Google OAuth
 2. GitHub OAuth
 
-All these types are synchronized, so you can everytime choose different way to sign in your profile.
+All these types are synchronized by email, so you can everytime choose different way to sign in your profile.
 
 ## Screenshots
 
